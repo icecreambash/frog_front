@@ -1,0 +1,8 @@
+services:
+  projectanna:
+    container_name: projectanna
+    ports:
+      - ${PORT}:3000
+    build:
+      context: .
+      dockerfile: dockerfile
