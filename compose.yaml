@@ -1,6 +1,6 @@
 services:
   projectanna:
-    container_name: projectanna
+    container_name: tgup_front
     ports:
       - ${PORT}:3000
     build:
