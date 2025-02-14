@@ -14,6 +14,7 @@
         <PlatformsSelectCard v-model:controller="platformController" />
         <ConfigurationCard v-model:controller="platformController" />
      </div>
+     <PayModal v-model:visible="platformController.visiblePayModal" />
   </div>
 </template>
 
@@ -22,6 +23,7 @@ import StatusCard from '~/components/cards/StatusCard.vue';
 import ServicePropertiesCard from '~/components/cards/ServicePropertiesCard.vue';
 import PlatformsSelectCard from '~/components/cards/PlatformsSelectCard.vue';
 import ConfigurationCard from '~/components/cards/ConfigurationCard.vue';
+import PayModal from '~/components/modals/PayModal.vue';
 const orderStatus = ref<StatusOrderType[]>(
   [
     {
@@ -48,13 +50,16 @@ const platformController = ref<PlatformController>({
   properties:[],
   currentProperty:undefined,
   fields:[],
+  loadingFields: true,
+  visiblePayModal:false,
 }); onMounted(async ()=>{
   await loadPlatforms()
 }); watch(()=>[platformController.value.currentPlatform],()=>{
   if(platformController.value.currentPlatform === undefined) return 
+  platformController.value.properties = []
+  platformController.value.currentProperty = undefined
+  platformController.value.fields = [];
   currentIndex.value = 2;
-}); watch(()=>[platformController.value.currentPlatform],()=>{
-  if(platformController.value.currentPlatform === undefined) return 
   loadPlatformServices()
 }); watch(()=>[platformController.value.currentProperty],()=>{
   if(platformController.value.currentProperty === undefined) return 
@@ -85,10 +90,13 @@ const loadPlatformServices = async () => {
 }
 
 const loadFields = async () => {
+  platformController.value.loadingFields = true;
   try {
     platformController.value.fields = (await useConductor(`/platforms/${platformController.value.currentPlatform?.id}/services/${platformController.value.currentProperty?.id}/fields/`, {})).data as FieldEntity[]
+    platformController.value.loadingFields = false;
   }catch(e) {
     console.log(e)
+    platformController.value.loadingFields = false;
   }
 }
 

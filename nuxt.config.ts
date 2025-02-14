@@ -5,11 +5,7 @@ export default defineNuxtConfig({
   css:[
     '~/assets/css/global.css'
   ],
-  modules: [
-    'nuxt-svgo',
-    '@nuxt/ui',
-    '@nuxt/fonts',
-  ],
+  modules: ['nuxt-svgo', '@nuxt/ui', '@nuxt/fonts', '@nuxtjs/device'],
   svgo:{
     defaultImport: 'component',
   },

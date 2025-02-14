@@ -22,7 +22,9 @@ export type PlatformController = {
     loading_properties:boolean,
     properties:PlatformService[],
     currentProperty?: PlatformService
-    fields: FieldEntity[]
+    fields: FieldEntity[],
+    loadingFields: boolean,
+    visiblePayModal:boolean,
 }
 
 
